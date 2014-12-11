@@ -549,6 +549,7 @@ function cmd_wakeUp() {
 	update_display_msg(17);
 }
 
+//Default navigation function
 function loc_nav_default(x) {
 	if (newLoc(x) != -1) {
 		update_Map(0);
