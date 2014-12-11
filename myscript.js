@@ -18,7 +18,7 @@ function enterKey_check(e) {
 }
 
 //Checks the current time and returns the appropriate greeting
-function greetingTest() {		
+function greetingTest() {
 	var currentTime = new Date();
 	var currentHour = currentTime.getHours();
 	var greeting = "";
@@ -142,65 +142,6 @@ function btn_set() {
 			break;
 	}
 }
-
-//LOCATION/MAP/POINTS/TEXTAREA UPDATING:
-//Update textarea
-
-//Experimenting with map drawing using tiling
-/*Location.draw_Map = function() {
-	var mapContainer = document.getElementById("container");
-	
-	Location.mapArray = [
-		[1,1,1,1,1,1,1,1],
-		[7,7,7,7,7,7,7,7],
-		[4,4,4,5,5,5,6,6],
-		[4,4,4,5,5,5,6,6],
-		[1,1,1,2,2,2,2,3],
-		[1,1,1,2,2,2,2,3],
-		[0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0]
-		];
-
-	for (var i=0; i < Location.mapArray.length; i++){
-		for (var j=0; j < Location.mapArray[i].length; j++){
-			var tile = document.createElement("div");
-			switch (parseInt(Location.mapArray[i][j])){
-			case 0:
-				tile.className = "cell";
-				mapContainer.appendChild(tile);
-				break;
-			case 1:
-				tile.className = "dining";
-				mapContainer.appendChild(tile);
-				break;
-			case 2:
-				tile.className = "multi_room";
-				mapContainer.appendChild(tile);
-				break;
-			case 3:
-				tile.className = "courtyard";
-				mapContainer.appendChild(tile);
-				break
-			case 4:
-				tile.className = "infirmary";
-				mapContainer.appendChild(tile);
-				break;
-			case 5:
-				tile.className = "visiting_room";
-				mapContainer.appendChild(tile);
-				break;
-			case 6:
-				tile.className = "gymnasium";
-				mapContainer.appendChild(tile);
-				break;
-			case 7:
-				tile.className = "warden_office";
-				mapContainer.appendChild(tile);
-				break;
-			}
-		}
-	}
-}*/
 
 //Updates location value in location box
 function update_Loc() {
@@ -574,7 +515,7 @@ function cmd_sitDown() {
 	}
 }
 
-//Executed when the user answers '19'
+//Executed when the user answers '19' during warden interrogation
 function cmd_19() {
 	if (current_loc === 8) {
 		update_display_msg(16);
@@ -582,7 +523,7 @@ function cmd_19() {
 	}
 }
 
-//Executed when the user answers '21'
+//Executed when the user answers '21' during warden interrogation
 function cmd_21() {
 	if (current_loc === 8) {
 		update_display_msg(15);
@@ -594,6 +535,7 @@ function cmd_21() {
 
 //Executed on 'wake up' command
 function cmd_wakeUp() {
+	//Random message displayed in Wake Up command
 	var alertArray = ["A dream within a dream?",
 					  "Why don't you stop playing games and do some actual work?",
 					  "RUN","I know what you're thinking: This game is amazing!",
@@ -601,9 +543,21 @@ function cmd_wakeUp() {
 	
 	alertArray.push(greetingTest());
 
+	//Randomly displays a message from alertArray
 	var randomNumber = Math.floor(Math.random() * alertArray.length)
 	alert(alertArray[randomNumber]);
 	update_display_msg(17);
+}
+
+function loc_nav_default(x) {
+	if (newLoc(x) != -1) {
+		update_Map(0);
+		current_loc = newLoc(x);
+		param_change();
+	}
+	else {
+		navigationError(0);
+	}
 }
 
 //Location navigation function
@@ -614,13 +568,8 @@ function loc_nav(d) {
 				cmd_Look();
 				navigationError(0);
 			}
-			else if (newLoc(d) != -1) {
-				update_Map(0);
-				current_loc = newLoc(d);
-				param_change();
-			}
 			else {
-				navigationError(0);
+				loc_nav_default(d);
 			}
 			break;
 		case 7:
@@ -630,14 +579,7 @@ function loc_nav(d) {
 				break;
 			}
 		default:
-			if (newLoc(d) != -1) {
-				update_Map(0);
-				current_loc = newLoc(d);
-				param_change();
-			}
-			else {
-				navigationError(0);
-			}
+			loc_nav_default(d);
 	}
 }
 

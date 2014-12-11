@@ -1,8 +1,10 @@
 //Display functions
+//Display update function, called by update_display_msg and error handlers
 function update_Display(num, type) {
 	var msg_box = document.getElementById("ta_Main");
 	var message = [];
 	switch (type) {
+		//General information messages
 		case 0:
 			message = ["You move to the ",
 					   "Welcome to Escape Plan!\n\nFor every time you visit a new location, you will receive 5 points. You must escape the prison to win the game!\n\nYou are currently in the prison cell.",
@@ -25,10 +27,12 @@ function update_Display(num, type) {
 					   "You lose! You are a failure.",
 					   "Congratulations! You have escaped with more than 50 points! You are Awesome!"];
 			break;
+		//Navigation error messages
 		case 1:
 			message = ["You cannot go that way!",
 					   "Navigation Error!"];
 			break;
+		//Gameplay error messages
 		case 2:
 			message = ["There is nothing to take!",
 					   "There is nothing to unlock!",
@@ -43,20 +47,23 @@ function update_Display(num, type) {
 					   "Gameplay Error!"];
 			break;
 	}
+	//Information/General messages
 	if (type === 0) {
+		//Different display methods as required by different types of actions/events
 		if (num === 0) {
 			msg_box.value = message[num] + loc[current_loc].loc_name + "\n\n" + loc[current_loc].loc_desc() + "\n\n\n" + msg_box.value;
 		}
 		else if (num === 1) {
 			msg_box.value = message[num];
 		}
-		else if (num === 9 || num === 13 || num === 18) {
+		else if (num === 9 || num === 13 || num === 18 || num === 19) {
 			msg_box.value = message[num];
 		}
 		else {
 			msg_box.value = message[num] + "\n\n\n" + msg_box.value;
 		}
 	}
+	//Error messages
 	else if ((type === 1) || (type === 2)) {
 		if (num != undefined) {
 			msg_box.value = message[num] + "\n\n\n" + msg_box.value;
